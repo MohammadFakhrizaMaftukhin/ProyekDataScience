@@ -3,13 +3,13 @@
 **Judul Proyek:**  
 [(Contoh: "Klasifikasi Penyakit Daun Menggunakan CNN", "Prediksi Harga Rumah dengan Machine Learning", "Analisis Sentimen Ulasan Produk")]
 
-**Nama Mahasiswa:** [Nama Lengkap]  
-**NIM:** [Nomor Induk Mahasiswa]  
-**Program Studi:** [Teknologi Informasi / Rekayasa Perangkat Lunak]  
-**Mata Kuliah:** [Nama Mata Kuliah]  
-**Dosen Pengampu:** [Nama Dosen]  
-**Tahun Akademik:** [Tahun/Semester]
-**Link GitHub Repository:** [URL Repository]
+**Nama Mahasiswa:** Mohammad Fakhriza Maftukhin  
+**NIM:** 234311018  
+**Program Studi:** Teknologi Rekayasa Perangkat Lunak  
+**Mata Kuliah:** Data Science  
+**Dosen Pengampu:** Gus Nanang Syaifuddiin, S.Kom., M.Kom.  
+**Tahun Akademik:** 2025/5
+**Link GitHub Repository:** https://github.com/MohammadFakhrizaMaftukhin/ProyekDataScience.git
 **Link Video Pembahasan:** [URL Repository]
 
 ---
@@ -750,3 +750,4 @@ nltk==3.8.1           # untuk NLP
 transformers==4.30.0  # untuk BERT, dll
 
 ```
+
