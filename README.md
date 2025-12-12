@@ -1,9 +1,9 @@
 # 📘 Judul Proyek
-*(Isi judul proyek Anda di sini)*
+Prediksi Luas Area Kebakaran Hutan Menggunakan Pendekatan Machine Learning dan Deep Learning
 
 ## 👤 Informasi
-- **Nama:** [...]  
-- **Repo:** [...]  
+- **Nama:** Mohammad Fakhriza Maftukhin  
+- **Repo:** ProyekDataScience  
 - **Video:** [...]  
 
 ---
