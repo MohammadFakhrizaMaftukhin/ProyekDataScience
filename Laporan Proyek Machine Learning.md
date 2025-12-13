@@ -58,7 +58,7 @@ Dalam proyek ini, saya menggunakan dataset publik dari UCI Machine Learning Repo
 
 ### 3.2 Goals
 
-1. Membangun model regresi yang mampu memprediksi estimasi luas area kebakaran hutan (`area`) dengan tingkat kesalahan (error) seminimal mungkin, diukur menggunakan metrik RMSE (Root Mean Squared Error) dan MAE (Mean Absolute Error).
+1. Membangun model regresi yang mampu memprediksi estimasi luas area kebakaran hutan (area) dengan tingkat kesalahan (error) seminimal mungkin, diukur menggunakan metrik RMSE (Root Mean Squared Error) dan MAE (Mean Absolute Error).
 2. Mengukur dan membandingkan performa dari tiga pendekatan algoritma yang berbeda, yaitu Linear Regression (Baseline), Random Forest (Advanced Machine Learning), dan Multilayer Perceptron (Deep Learning), khususnya pada data yang telah melalui transformasi logaritma.
 3. Menentukan model terbaik yang paling efektif dan robust (kokoh) dalam menangani pola data cuaca yang kompleks dan distribusi target yang miring (skewed).
 4. Menghasilkan kode eksperimen yang terstruktur dan dapat dijalankan ulang (reproducible) yang terdokumentasi dalam repositori GitHub.
@@ -66,70 +66,45 @@ Dalam proyek ini, saya menggunakan dataset publik dari UCI Machine Learning Repo
 
 ### 3.3 Solution Approach
 
-Mahasiswa **WAJIB** menggunakan minimal **tiga model** dengan komposisi sebagai berikut:
 #### **Model 1 – Baseline Model**
 Model sederhana sebagai pembanding dasar.
 **Pilihan model:**
-- Linear Regression (untuk regresi)
-- Logistic Regression (untuk klasifikasi)
-- K-Nearest Neighbors (KNN)
-- Decision Tree
-- Naive Bayes
+Linear Regression (untuk regresi)
+**Penjelasan:**
+Linear Regression adalah algoritma statistik dasar yang memodelkan hubungan antara variabel independen (fitur cuaca seperti suhu, angin, hujan) dan variabel dependen (target luas area) dengan mencocokkan persamaan linear ke data yang diamati. Model ini mencoba menemukan garis lurus terbaik yang meminimalkan selisih antara nilai prediksi dan nilai aktual.
+**Alasan Pemilihan:**
+1. Kesesuaian Tugas: Karena target prediksi (area) adalah nilai kontinu, Linear Regression adalah algoritma standar yang paling tepat untuk dijadikan titik awal (baseline) kasus regresi.
+2. Benchmark: Model ini berfungsi sebagai tolak ukur performa. Jika model yang lebih kompleks (seperti Random Forest atau Deep Learning) tidak memberikan hasil yang jauh lebih baik daripada Linear Regression, maka kompleksitas tambahan tersebut mungkin tidak diperlukan.
+3. Interpretabilitas: Model ini sangat mudah diinterpretasikan untuk melihat bagaimana setiap fitur cuaca berkontribusi secara langsung terhadap kenaikan atau penurunan prediksi luas area terbakar.
 
-**[Jelaskan model baseline yang Anda pilih dan alasannya]**
 
 #### **Model 2 – Advanced / ML Model**
 Model machine learning yang lebih kompleks.
 **Pilihan model:**
-- Random Forest
-- Gradient Boosting (XGBoost, LightGBM, CatBoost)
-- Support Vector Machine (SVM)
-- Ensemble methods
-- Clustering (K-Means, DBSCAN) - untuk unsupervised
-- PCA / dimensionality reduction (untuk preprocessing)
+Random Forest
+**Penjelasan:**
+Random Forest adalah algoritma ensemble learning yang bekerja dengan cara membangun banyak pohon keputusan (Decision Trees) selama pelatihan. Untuk tugas regresi, algoritma ini mengambil rata-rata prediksi dari setiap pohon individu untuk menghasilkan prediksi akhir. Pendekatan ini disebut Bagging karena membantu mengurangi varians dan risiko overfitting yang sering terjadi pada satu pohon keputusan tunggal.
+**Alasan Pemilihan:**
+1. Menangani Non-Linearitas: Hubungan antara variabel cuaca (seperti suhu dan kelembaban) dengan terjadinya kebakaran hutan seringkali kompleks dan tidak linear. Random Forest sangat efektif dalam menangkap pola non-linear ini melalui struktur pohon keputusannya.
+2. Robust Terhadap Noise: Dataset Forest Fires diketahui memiliki banyak noise dan outlier (nilai kebakaran ekstrem). Random Forest lebih tangguh (robust) terhadap gangguan ini dibandingkan model regresi tunggal karena hasil prediksinya merupakan agregasi dari banyak model.
+3. Stabilitas: Dibandingkan dengan Decision Tree tunggal yang cenderung tidak stabil (perubahan kecil pada data bisa mengubah struktur pohon secara drastis), Random Forest memberikan hasil yang lebih konsisten dan generalisasi yang lebih baik pada data pengujian.
 
-**[Jelaskan model advanced yang Anda pilih dan alasannya]**
 
-#### **Model 3 – Deep Learning Model (WAJIB)**
+#### **Model 3 – Deep Learning Model**
 Model deep learning yang sesuai dengan jenis data.
-**Pilihan Implementasi (pilih salah satu sesuai dataset):**
+**Pilihan Implementasi:**
 **A. Tabular Data:**
-- Multilayer Perceptron (MLP) / Neural Network
-- Minimum: 2 hidden layers
-- Contoh: prediksi harga, klasifikasi binary/multiclass
-
-**B. Image Data:**
-- CNN sederhana (minimum 2 convolutional layers) **ATAU**
-- Transfer Learning (ResNet, VGG, MobileNet, EfficientNet) - **recommended**
-- Contoh: klasifikasi gambar, object detection
-
-**C. Text Data:**
-- LSTM/GRU (minimum 1 layer) **ATAU**
-- Embedding + Dense layers **ATAU**
-- Pre-trained model (BERT, DistilBERT, Word2Vec)
-- Contoh: sentiment analysis, text classification
-
-**D. Time Series:**
-- LSTM/GRU untuk sequential prediction
-- Contoh: forecasting, anomaly detection
-
-**E. Recommender Systems:**
-- Neural Collaborative Filtering (NCF)
-- Autoencoder-based Collaborative Filtering
-- Deep Matrix Factorization
-
-**Minimum Requirements untuk Deep Learning:**
-- ✅ Model harus training minimal 10 epochs
-- ✅ Harus ada plot loss dan accuracy/metric per epoch
-- ✅ Harus ada hasil prediksi pada test set
-- ✅ Training time dicatat (untuk dokumentasi)
-
-**Tidak Diperbolehkan:**
-- ❌ Copy-paste kode tanpa pemahaman
-- ❌ Model tidak di-train (hanya define arsitektur)
-- ❌ Tidak ada evaluasi pada test set
-
-**[Jelaskan model deep learning yang Anda pilih dan alasannya]**
+**Penjelasan Model:**
+Multilayer Perceptron (MLP) adalah jenis jaringan saraf tiruan feedforward yang terdiri dari setidaknya tiga lapisan node: lapisan input, lapisan tersembunyi (hidden layer), dan lapisan output. Setiap node (kecuali node input) adalah neuron yang menggunakan fungsi aktivasi non-linear.
+Untuk proyek ini, saya merancang arsitektur MLP sebagai berikut:
+1. Input Layer: Menyesuaikan dengan jumlah fitur hasil preprocessing.
+2. Hidden Layers: Menggunakan 2 hidden layers dengan fungsi aktivasi ReLU (Rectified Linear Unit) untuk menangkap pola non-linear.
+3. Regularization: Menambahkan lapisan Dropout di antara hidden layer untuk mencegah overfitting.
+4. Output Layer: Menggunakan 1 neuron dengan fungsi aktivasi Linear karena kasus ini adalah regresi (prediksi nilai kontinu).
+**Alasan Pemilihan:**
+1. Kompleksitas Data: Interaksi antara variabel meteorologi (suhu, angin, kelembaban) terhadap luas area kebakaran seringkali sangat kompleks dan tidak dapat dipisahkan secara linear. MLP memiliki kemampuan universal approximation yang memungkinkannya mempelajari fungsi pemetaan yang rumit tersebut.
+2. Fleksibilitas Arsitektur: MLP memungkinkan kita untuk menyesuaikan jumlah neuron dan layer serta menambahkan teknik regularisasi seperti Dropout untuk menangani isu overfitting yang menjadi tantangan utama pada dataset berukuran kecil.
+3. Pemenuhan Syarat Proyek: Dataset ini berbentuk tabular, sehingga MLP adalah arsitektur Deep Learning yang paling relevan dan efisien dibandingkan CNN (untuk gambar) atau LSTM (untuk data sekuensial/teks).
 
 ---
 
@@ -747,6 +722,7 @@ nltk==3.8.1           # untuk NLP
 transformers==4.30.0  # untuk BERT, dll
 
 ```
+
 
 
 
