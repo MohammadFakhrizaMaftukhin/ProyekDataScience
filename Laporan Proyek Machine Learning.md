@@ -33,6 +33,7 @@ Pada proyek ini, mahasiswa diharapkan dapat:
 ## 2. PROJECT OVERVIEW
 
 ### 2.1 Latar Belakang
+
 Kebakaran hutan merupakan salah satu bencana lingkungan yang paling merugikan, baik dari segi ekologi maupun ekonomi. Di wilayah mediterania seperti Portugal, kejadian kebakaran hutan meningkat setiap tahunnya akibat perubahan iklim dan aktivitas manusia. Wilayah yang menjadi fokus penelitian ini adalah Taman Alam Montesinho di sektor timur laut Portugal, yang memiliki risiko kebakaran tinggi terutama pada musim panas.
 
 Metode prediksi konvensional seringkali kesulitan mengestimasi keparahan kebakaran secara akurat karena kompleksitas interaksi variabel cuaca. Oleh karena itu, pendekatan berbasis data (Data Mining) menjadi solusi yang krusial. Berdasarkan penelitian yang dilakukan oleh Cortez dan Morais (2007), data meteorologi lokal—seperti suhu, kelembaban relatif, hujan, dan kecepatan angin—memiliki korelasi signifikan yang dapat dimanfaatkan untuk memprediksi luas area yang terbakar [Cortez & Morais (2007)].
@@ -49,26 +50,19 @@ Dalam proyek ini, saya menggunakan dataset publik dari UCI Machine Learning Repo
 
 ## 3. BUSINESS UNDERSTANDING / PROBLEM UNDERSTANDING
 ### 3.1 Problem Statements
-Tuliskan 2–4 pernyataan masalah yang jelas dan spesifik.
 
-**Contoh (universal):**
-1. Model perlu mampu memprediksi nilai target dengan akurasi tinggi
-2. Sistem harus dapat mengidentifikasi pola pada citra secara otomatis
-3. Dataset memiliki noise sehingga perlu preprocessing yang tepat
-4. Dibutuhkan model deep learning yang mampu belajar representasi fitur kompleks
+1. Model perlu mampu memprediksi estimasi luas area hutan yang terbakar (area) dengan tingkat error seminimal mungkin berdasarkan data meteorologi harian.
+2. Dataset memiliki distribusi target yang sangat miring (highly skewed) ke arah nol, sehingga memerlukan strategi preprocessing khusus (seperti transformasi logaritma) agar model tidak bias.
+3. Diperlukan evaluasi untuk menentukan apakah model kompleks seperti Deep Learning (MLP) mampu memberikan performa yang lebih baik dibandingkan metode Machine Learning konvensional (Random Forest) pada dataset dengan jumlah sampel terbatas.
 
-**[Tulis problem statements Anda di sini]**
 
 ### 3.2 Goals
 
-Tujuan harus spesifik, terukur, dan selaras dengan problem statement.
-**Contoh tujuan:**
-1. Membangun model ML untuk memprediksi variabel target dengan akurasi > 80%
-2. Mengukur performa tiga pendekatan model (baseline, advanced, deep learning)
-3. Menentukan model terbaik berdasarkan metrik evaluasi yang relevan
-4. Menghasilkan sistem yang dapat bekerja secara reproducible
+1. Membangun model regresi yang mampu memprediksi estimasi luas area kebakaran hutan (`area`) dengan tingkat kesalahan (error) seminimal mungkin, diukur menggunakan metrik RMSE (Root Mean Squared Error) dan MAE (Mean Absolute Error).
+2. Mengukur dan membandingkan performa dari tiga pendekatan algoritma yang berbeda, yaitu Linear Regression (Baseline), Random Forest (Advanced Machine Learning), dan Multilayer Perceptron (Deep Learning), khususnya pada data yang telah melalui transformasi logaritma.
+3. Menentukan model terbaik yang paling efektif dan robust (kokoh) dalam menangani pola data cuaca yang kompleks dan distribusi target yang miring (skewed).
+4. Menghasilkan kode eksperimen yang terstruktur dan dapat dijalankan ulang (reproducible) yang terdokumentasi dalam repositori GitHub.
 
-**[Tulis goals Anda di sini]**
 
 ### 3.3 Solution Approach
 
@@ -753,6 +747,7 @@ nltk==3.8.1           # untuk NLP
 transformers==4.30.0  # untuk BERT, dll
 
 ```
+
 
 
 
