@@ -33,16 +33,19 @@ Pada proyek ini, mahasiswa diharapkan dapat:
 ## 2. PROJECT OVERVIEW
 
 ### 2.1 Latar Belakang
-**Isi bagian ini dengan:**
-- Mengapa proyek ini penting?
-- Permasalahan umum pada domain terkait (misal: kesehatan, pendidikan, keuangan, pertanian, NLP, computer vision, dll.)
-- Manfaat proyek untuk pengguna, bisnis, atau penelitian
-- Studi literatur atau referensi ilmiah (minimal 1–2 sumber wajib)
+Kebakaran hutan merupakan salah satu bencana lingkungan yang paling merugikan, baik dari segi ekologi maupun ekonomi. Di wilayah mediterania seperti Portugal, kejadian kebakaran hutan meningkat setiap tahunnya akibat perubahan iklim dan aktivitas manusia. Wilayah yang menjadi fokus penelitian ini adalah Taman Alam Montesinho di sektor timur laut Portugal, yang memiliki risiko kebakaran tinggi terutama pada musim panas.
 
-**Contoh referensi (berformat APA/IEEE):**
-> Goodfellow, I., Bengio, Y., & Courville, A. (2016). *Deep Learning*. MIT Press.
+Metode prediksi konvensional seringkali kesulitan mengestimasi keparahan kebakaran secara akurat karena kompleksitas interaksi variabel cuaca. Oleh karena itu, pendekatan berbasis data (Data Mining) menjadi solusi yang krusial. Berdasarkan penelitian yang dilakukan oleh Cortez dan Morais (2007), data meteorologi lokal—seperti suhu, kelembaban relatif, hujan, dan kecepatan angin—memiliki korelasi signifikan yang dapat dimanfaatkan untuk memprediksi luas area yang terbakar [Cortez & Morais (2007)].
 
-**[Jelaskan konteks dan latar belakang proyek]**
+Seiring perkembangan teknologi, metode Machine Learning telah terbukti efektif dalam manajemen risiko kebakaran hutan dengan memberikan prediksi yang lebih cepat dan data-driven dibandingkan metode manual [Jain et al. (2020)]. Selain itu, penerapan Deep Learning melalui arsitektur Multilayer Perceptron (MLP) menawarkan kemampuan untuk menangkap pola non-linear yang kompleks dalam data lingkungan, yang seringkali sulit dimodelkan oleh regresi statistik tradisional [Goodfellow et al. (2016)].
+
+Dalam proyek ini, saya menggunakan dataset publik dari UCI Machine Learning Repository untuk mengimplementasikan dan membandingkan performa tiga pendekatan model: Linear Regression sebagai baseline, Random Forest sebagai representasi algoritma Machine Learning, dan Deep Learning untuk melihat potensi jaringan saraf tiruan dalam menangani data yang memiliki distribusi skewed.
+
+**Referensi (berformat APA):**
+> Cortez, P., & Morais, A. (2007). A data mining approach to predict forest fires using meteorological data. In Proceedings of the 13th EPIA 2007 - Portuguese Conference on Artificial Intelligence (pp. 512-523). Guimarães, Portugal.
+> Jain, P., Coogan, S. C., Subramanian, S. G., Crowley, M., Taylor, S., & Flannigan, M. D. (2020). A review of machine learning applications in wildfire science and management. Environmental Reviews, 28(4), 478-505.
+> Goodfellow, I., Bengio, Y., & Courville, A. (2016). Deep Learning. MIT Press.
+
 
 ## 3. BUSINESS UNDERSTANDING / PROBLEM UNDERSTANDING
 ### 3.1 Problem Statements
@@ -750,5 +753,6 @@ nltk==3.8.1           # untuk NLP
 transformers==4.30.0  # untuk BERT, dll
 
 ```
+
 
 
