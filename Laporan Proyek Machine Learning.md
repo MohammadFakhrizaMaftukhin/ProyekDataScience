@@ -110,29 +110,32 @@ Untuk proyek ini, saya merancang arsitektur MLP sebagai berikut:
 ## 4. DATA UNDERSTANDING
 ### 4.1 Informasi Dataset
 **Sumber Dataset:**  
-[Sebutkan sumber: Kaggle, UCI ML Repository, atau sumber lain dengan URL]
+UCI ML Repository
 
 **Deskripsi Dataset:**
-- Jumlah baris (rows): [angka]
-- Jumlah kolom (columns/features): [angka]
-- Tipe data: [Tabular / Image / Text / Time Series / Audio / Video]
-- Ukuran dataset: [MB/GB]
-- Format file: [CSV / JSON / Images / TXT / etc.]
+- Jumlah baris (rows): 517
+- Jumlah kolom (columns/features): 13 (12 features + 1 target)
+- Tipe data: Tabular
+- Ukuran dataset: 0,0249 MB
+- Format file: CSV
 
 ### 4.2 Deskripsi Fitur
-Jelaskan setiap fitur/kolom yang ada dalam dataset.
-**Contoh tabel:**
+
 | Nama Fitur | Tipe Data | Deskripsi | Contoh Nilai |
 |------------|-----------|-----------|--------------|
-| id | Integer | ID unik data | 1, 2, 3 |
-| age | Integer | Usia (tahun) | 25, 30, 45 |
-| income | Float | Pendapatan (juta) | 5.5, 10.2 |
-| category | Categorical | Kategori produk | A, B, C |
-| text | String | Teks ulasan | "Produk bagus..." |
-| image | Image | Citra 224x224 RGB | Array 224x224x3 |
-| label | Categorical | Label target | 0, 1 atau "positif", "negatif" |
+| X | Integer | koordinat spasial sumbu X dalam peta taman Montesinho | 1 - 9 |
+| Y | Integer | koordinat spasial sumbu Y dalam peta taman Montesinho | 2 - 9 |
+| month | Categorical | bulan dalam setahun | januari - desember |
+| day | Categorical | hari dalam seminggu | senin - minggu |
+| FFMC | Continuous | Indeks FFMC dari sistem FWI | 18,7 - 96,20 |
+| DMC | Integer | Indeks DMC dari sistem FWI | 1,1 - 291,3 |
+| DC | Continuous | Indeks DC dari sistem FWI | 7,9 - 860,6 |
+| ISI | Continuous | Indeks ISI dari sistem FWI | 0,0 - 56,10 |
+| temp | Continuous | suhu (celcius) | 2,2 - 33,30 |
+| RH | Integer | kelembaban relatif | 15,0 - 100 |
+| wind | Continuous | kecepatan angin | 0,40 - 9,40 |
+| rain | Integer | hujan | 0,0 - 6,4 |
 
-**[Buat tabel deskripsi fitur Anda di sini]**
 
 ### 4.3 Kondisi Data
 
@@ -721,6 +724,7 @@ nltk==3.8.1           # untuk NLP
 transformers==4.30.0  # untuk BERT, dll
 
 ```
+
 
 
 
