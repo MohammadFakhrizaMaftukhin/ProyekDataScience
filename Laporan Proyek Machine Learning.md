@@ -93,7 +93,7 @@ Random Forest adalah algoritma ensemble learning yang bekerja dengan cara memban
 #### **Model 3 – Deep Learning Model**
 Model deep learning yang sesuai dengan jenis data.
 **Pilihan Implementasi:**
-**A. Tabular Data:**
+Tabular Data
 **Penjelasan Model:**
 Multilayer Perceptron (MLP) adalah jenis jaringan saraf tiruan feedforward yang terdiri dari setidaknya tiga lapisan node: lapisan input, lapisan tersembunyi (hidden layer), dan lapisan output. Setiap node (kecuali node input) adalah neuron yang menggunakan fungsi aktivasi non-linear.
 Untuk proyek ini, saya merancang arsitektur MLP sebagai berikut:
@@ -104,7 +104,6 @@ Untuk proyek ini, saya merancang arsitektur MLP sebagai berikut:
 **Alasan Pemilihan:**
 1. Kompleksitas Data: Interaksi antara variabel meteorologi (suhu, angin, kelembaban) terhadap luas area kebakaran seringkali sangat kompleks dan tidak dapat dipisahkan secara linear. MLP memiliki kemampuan universal approximation yang memungkinkannya mempelajari fungsi pemetaan yang rumit tersebut.
 2. Fleksibilitas Arsitektur: MLP memungkinkan kita untuk menyesuaikan jumlah neuron dan layer serta menambahkan teknik regularisasi seperti Dropout untuk menangani isu overfitting yang menjadi tantangan utama pada dataset berukuran kecil.
-3. Pemenuhan Syarat Proyek: Dataset ini berbentuk tabular, sehingga MLP adalah arsitektur Deep Learning yang paling relevan dan efisien dibandingkan CNN (untuk gambar) atau LSTM (untuk data sekuensial/teks).
 
 ---
 
@@ -722,6 +721,7 @@ nltk==3.8.1           # untuk NLP
 transformers==4.30.0  # untuk BERT, dll
 
 ```
+
 
 
 
