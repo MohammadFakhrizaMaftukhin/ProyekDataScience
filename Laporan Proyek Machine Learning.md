@@ -139,14 +139,14 @@ UCI ML Repository
 
 ### 4.3 Kondisi Data
 
-Jelaskan kondisi dan permasalahan data:
+Berdasarkan analisis eksplorasi data, berikut kondisi dan permasalahan yang ditemukan pada dataset:
 
-- **Missing Values:** [Ada/Tidak, berapa persen?]
-- **Duplicate Data:** [Ada/Tidak, berapa banyak?]
-- **Outliers:** [Ada/Tidak, pada fitur apa?]
-- **Imbalanced Data:** [Ada/Tidak, rasio kelas?]
-- **Noise:** [Jelaskan jika ada]
-- **Data Quality Issues:** [Jelaskan jika ada masalah lain]
+- **Missing Values:** Tidak ada, 0 persen
+- **Duplicate Data:** Ada, Terdapat 4 baris data duplikat
+- **Outliers:** Ada, sangat signifikan pada variabel target area dan beberapa indeks FWI seperti `FFMC` dan `ISI`
+- **Imbalanced Data:** Ada, bersifat Zero-Inflated (terlalu banyak nilai nol) dengan proporsi 48% data bernilai 0
+- **Noise:** Fitur meteorologi seperti `rain` memiliki variansi yang sangat rendah (mayoritas 0) sehingga dapat dianggap sebagai noise atau fitur dengan informasi prediktif yang lemah.
+- **Data Quality Issues: Tidak ada
 
 ### 4.4 Exploratory Data Analysis (EDA) - (**OPSIONAL**)
 
@@ -724,6 +724,7 @@ nltk==3.8.1           # untuk NLP
 transformers==4.30.0  # untuk BERT, dll
 
 ```
+
 
 
 
