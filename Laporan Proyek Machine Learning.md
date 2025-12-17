@@ -192,21 +192,22 @@ Berdasarkan analisis eksplorasi data, berikut kondisi dan permasalahan yang dite
 Bagian ini menjelaskan **semua** proses transformasi dan preprocessing data yang dilakukan.
 ### 5.1 Data Cleaning
 **Aktivitas:**
-- Handling missing values
-- Removing duplicates
-- Handling outliers
-- Data type conversion
-**Contoh:**
-```
-Missing Values:
-- Fitur 'age' memiliki 50 missing values (5% dari data)
-- Strategi: Imputasi dengan median karena distribusi skewed
-- Alasan: Median lebih robust terhadap outliers dibanding mean
-```
+Removing duplicates:
+- Temuan: Terdeteksi 4 baris data yang identik (duplikat) dari total dataset.
+- Strategi: Menghapus data duplikat tersebut secara permanen.
+- Alasan: Data duplikat dapat menyebabkan bias pada evaluasi model (seolah-olah akurasi tinggi karena menguji data yang sama dengan data latih) dan tidak memberikan informasi tambahan.
+ 
+Handling outliers:
+- Fitur: Variabel target area.
+- Temuan: Distribusi data sangat right-skewed (miring ke kanan) dengan adanya nilai ekstrem (kebakaran sangat besar), sementara mayoritas data bernilai 0.
+- Strategi: Melakukan Transformasi Logaritma (Log(x+1)) pada fitur area.
+- Alasan: Teknik ini "memampatkan" rentang nilai yang terlalu lebar agar distribusi data mendekati normal, sehingga model regresi dapat belajar lebih stabil tanpa "terseret" oleh nilai-nilai ekstrem tersebut.
 
-**[Jelaskan langkah-langkah data cleaning yang Anda lakukan]**
-
-
+Data type conversion:
+- Fitur: Kolom month (bulan) dan day (hari).
+- Temuan: Tipe data asli berupa teks/string (object) yang tidak dapat diproses oleh algoritma Machine Learning.
+- Strategi: Manual Mapping (Encoding) menjadi angka (Jan=1, Feb=2, dst).
+- Alasan: Mengubah data menjadi format numerik yang dapat dihitung secara matematis oleh model, sekaligus menjaga urutan kronologis waktu (ordinal) yang penting untuk menangkap pola musiman.
 
 ### 5.2 Feature Engineering
 **Aktivitas:**
@@ -723,6 +724,7 @@ nltk==3.8.1           # untuk NLP
 transformers==4.30.0  # untuk BERT, dll
 
 ```
+
 
 
 
