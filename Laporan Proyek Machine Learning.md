@@ -150,39 +150,38 @@ Berdasarkan analisis eksplorasi data, berikut kondisi dan permasalahan yang dite
 
 ### 4.4 Exploratory Data Analysis (EDA) - (**OPSIONAL**)
 
-**Requirement:** Minimal 3 visualisasi yang bermakna dan insight-nya.
-**Contoh jenis visualisasi yang dapat digunakan:**
-- Histogram (distribusi data)
-- Boxplot (deteksi outliers)
-- Heatmap korelasi (hubungan antar fitur)
-- Bar plot (distribusi kategori)
-- Scatter plot (hubungan 2 variabel)
-- Wordcloud (untuk text data)
-- Sample images (untuk image data)
-- Time series plot (untuk temporal data)
-- Confusion matrix heatmap
-- Class distribution plot
+#### Visualisasi 1: Distribusi Seluruh Fitur Numerik
+<img width="1983" height="1484" alt="histogram fitur" src="https://github.com/user-attachments/assets/a1801f31-a469-435f-a142-c9f0801f4dc7" />
 
-
-#### Visualisasi 1: [Judul Visualisasi]
-[Insert gambar/plot]
 
 **Insight:**  
-[Jelaskan apa yang dapat dipelajari dari visualisasi ini]
+- **Target (`area`):** Sangat miring ke kanan (*right-skewed*). Mayoritas data bernilai 0, namun transformasi log (`area_log`) berhasil menormalkan distribusinya secara signifikan.
+- **Fitur FWI (`FFMC`, `DMC`, `DC`, `ISI`):**
+    - `FFMC` sangat miring ke kiri (*negative skew*), menunjukkan bahwa mayoritas data diambil saat kondisi hutan sangat mudah terbakar (FFMC tinggi).
+    - `ISI` dan `rain` juga memiliki distribusi *skewed* dengan banyak nilai rendah/nol.
+- **Fitur Cuaca (`temp`, `RH`, `wind`):**
+    - `temp` (suhu) dan `wind` (angin) memiliki distribusi yang cukup normal (berbentuk lonceng), yang bagus untuk pemodelan statistik.
+    - `RH` (kelembaban) sedikit miring ke kanan, namun masih tersebar cukup merata.
 
-#### Visualisasi 2: [Judul Visualisasi]
+#### Visualisasi 2: Heatmap Korelasi Fitur
 
-[Insert gambar/plot]
+<img width="789" height="687" alt="heatmap korelasi fitur" src="https://github.com/user-attachments/assets/00c5e28a-061a-4c2c-8b30-90f4fce088de" />
+
 
 **Insight:**  
-[Jelaskan apa yang dapat dipelajari dari visualisasi ini]
+- Terdapat korelasi positif yang kuat antara fitur-fitur indeks FWI (Fire Weather Index), misalnya `DC` dan `DMC` memiliki korelasi tinggi (0.68), yang wajar karena keduanya mengukur kekeringan.
+- Korelasi antara fitur cuaca (`temp`, `wind`, `rain`) dengan target `area_log` cenderung lemah (mendekati 0). Ini mengindikasikan bahwa prediksi kebakaran sangat menantang (stochastic) dan hubungan antar variabel tidak bersifat linear sederhana, sehingga memperkuat alasan penggunaan model non-linear seperti Random Forest dan Deep Learning.
+- `temp` (suhu) memiliki korelasi positif terbesar terhadap indeks kebakaran (`FFMC`, `ISI`), menunjukkan suhu adalah faktor pendorong risiko kebakaran utama.
 
-#### Visualisasi 3: [Judul Visualisasi]
+#### Visualisasi 3: Scatter Plot Temperatur vs Log(Area)
 
-[Insert gambar/plot]
+<img width="686" height="556" alt="scatter plot" src="https://github.com/user-attachments/assets/8dd779ab-4ff4-41ce-baa6-430c49ca7019" />
+
 
 **Insight:**  
-[Jelaskan apa yang dapat dipelajari dari visualisasi ini]
+- Grafik menunjukkan bahwa kebakaran dengan area luas (sumbu Y tinggi) cenderung terjadi pada temperatur tinggi (di atas 20°C).
+- Namun, data memiliki varians yang tinggi; pada suhu tinggi pun masih banyak kejadian dengan area terbakar kecil (titik-titik di bagian bawah kanan).
+- Garis regresi (merah) menunjukkan tren positif yang landai: semakin panas suhu, semakin besar potensi area yang terbakar, meskipun faktor ini saja tidak cukup untuk menjadi prediktor tunggal yang akurat.
 
 
 
@@ -724,6 +723,7 @@ nltk==3.8.1           # untuk NLP
 transformers==4.30.0  # untuk BERT, dll
 
 ```
+
 
 
 
