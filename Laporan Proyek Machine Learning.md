@@ -68,10 +68,13 @@ Dalam proyek ini, saya menggunakan dataset publik dari UCI Machine Learning Repo
 
 #### **Model 1 – Baseline Model**
 Model sederhana sebagai pembanding dasar.
+
 **Pilihan model:**
 Linear Regression (untuk regresi)
+
 **Penjelasan:**
 Linear Regression adalah algoritma statistik dasar yang memodelkan hubungan antara variabel independen (fitur cuaca seperti suhu, angin, hujan) dan variabel dependen (target luas area) dengan mencocokkan persamaan linear ke data yang diamati. Model ini mencoba menemukan garis lurus terbaik yang meminimalkan selisih antara nilai prediksi dan nilai aktual.
+
 **Alasan Pemilihan:**
 1. Kesesuaian Tugas: Karena target prediksi (area) adalah nilai kontinu, Linear Regression adalah algoritma standar yang paling tepat untuk dijadikan titik awal (baseline) kasus regresi.
 2. Benchmark: Model ini berfungsi sebagai tolak ukur performa. Jika model yang lebih kompleks (seperti Random Forest atau Deep Learning) tidak memberikan hasil yang jauh lebih baik daripada Linear Regression, maka kompleksitas tambahan tersebut mungkin tidak diperlukan.
@@ -80,10 +83,13 @@ Linear Regression adalah algoritma statistik dasar yang memodelkan hubungan anta
 
 #### **Model 2 – Advanced / ML Model**
 Model machine learning yang lebih kompleks.
+
 **Pilihan model:**
 Random Forest
+
 **Penjelasan:**
 Random Forest adalah algoritma ensemble learning yang bekerja dengan cara membangun banyak pohon keputusan (Decision Trees) selama pelatihan. Untuk tugas regresi, algoritma ini mengambil rata-rata prediksi dari setiap pohon individu untuk menghasilkan prediksi akhir. Pendekatan ini disebut Bagging karena membantu mengurangi varians dan risiko overfitting yang sering terjadi pada satu pohon keputusan tunggal.
+
 **Alasan Pemilihan:**
 1. Menangani Non-Linearitas: Hubungan antara variabel cuaca (seperti suhu dan kelembaban) dengan terjadinya kebakaran hutan seringkali kompleks dan tidak linear. Random Forest sangat efektif dalam menangkap pola non-linear ini melalui struktur pohon keputusannya.
 2. Robust Terhadap Noise: Dataset Forest Fires diketahui memiliki banyak noise dan outlier (nilai kebakaran ekstrem). Random Forest lebih tangguh (robust) terhadap gangguan ini dibandingkan model regresi tunggal karena hasil prediksinya merupakan agregasi dari banyak model.
@@ -92,8 +98,10 @@ Random Forest adalah algoritma ensemble learning yang bekerja dengan cara memban
 
 #### **Model 3 – Deep Learning Model**
 Model deep learning yang sesuai dengan jenis data.
+
 **Pilihan Implementasi:**
 Tabular Data
+
 **Penjelasan Model:**
 Multilayer Perceptron (MLP) adalah jenis jaringan saraf tiruan feedforward yang terdiri dari setidaknya tiga lapisan node: lapisan input, lapisan tersembunyi (hidden layer), dan lapisan output. Setiap node (kecuali node input) adalah neuron yang menggunakan fungsi aktivasi non-linear.
 Untuk proyek ini, saya merancang arsitektur MLP sebagai berikut:
@@ -101,6 +109,7 @@ Untuk proyek ini, saya merancang arsitektur MLP sebagai berikut:
 2. Hidden Layers: Menggunakan 2 hidden layers dengan fungsi aktivasi ReLU (Rectified Linear Unit) untuk menangkap pola non-linear.
 3. Regularization: Menambahkan lapisan Dropout di antara hidden layer untuk mencegah overfitting.
 4. Output Layer: Menggunakan 1 neuron dengan fungsi aktivasi Linear karena kasus ini adalah regresi (prediksi nilai kontinu).
+
 **Alasan Pemilihan:**
 1. Kompleksitas Data: Interaksi antara variabel meteorologi (suhu, angin, kelembaban) terhadap luas area kebakaran seringkali sangat kompleks dan tidak dapat dipisahkan secara linear. MLP memiliki kemampuan universal approximation yang memungkinkannya mempelajari fungsi pemetaan yang rumit tersebut.
 2. Fleksibilitas Arsitektur: MLP memungkinkan kita untuk menyesuaikan jumlah neuron dan layer serta menambahkan teknik regularisasi seperti Dropout untuk menangani isu overfitting yang menjadi tantangan utama pada dataset berukuran kecil.
@@ -192,6 +201,7 @@ Berdasarkan analisis eksplorasi data, berikut kondisi dan permasalahan yang dite
 Bagian ini menjelaskan **semua** proses transformasi dan preprocessing data yang dilakukan.
 ### 5.1 Data Cleaning
 **Aktivitas:**
+
 Removing duplicates:
 - Temuan: Terdeteksi 4 baris data yang identik (duplikat) dari total dataset.
 - Strategi: Menghapus data duplikat tersebut secara permanen.
@@ -211,40 +221,33 @@ Data type conversion:
 
 ### 5.2 Feature Engineering
 **Aktivitas:**
-- Creating new features
-- Feature extraction
-- Feature selection
-- Dimensionality reduction
 
-**[Jelaskan feature engineering yang Anda lakukan]**
+Creating new features
+- Fitur Baru: `is_weekend` (Binary: 0 atau 1)
+- Metode: Mengonversi fitur `day` menjadi binary: nilai `1` untuk hari Sabtu/Minggu, dan `0` untuk hari biasa.
+- Alasan: Aktivitas manusia di hutan (seperti berkemah atau wisata) cenderung meningkat pada akhir pekan, yang berpotensi meningkatkan risiko kebakaran akibat kelalaian manusia (api unggun, puntung rokok). Penambahan fitur ini bertujuan menangkap pola perilaku tersebut.
+
+Feature selection
+- Seleksi Fitur: Memilih 13 variabel prediktor utama:
+  - Spasial: `X`, `Y` (Koordinat lokasi).
+  - Temporal: `month`, `day`, `is_weekend` (Waktu kejadian).
+  - FWI Indices: `FFMC`, `DMC`, `DC`, `ISI` (Indeks kekeringan dan bahan bakar hutan).
+  - Meteorologi: `temp`, `RH`, `wind`, `rain` (Kondisi cuaca real-time).
+- Pemisahan Target: Variabel `area` (asli) dibuang dari set fitur `X` untuk mencegah data leakage, dan variabel `area_log` ditetapkan sebagai target `y` (label).
 
 ### 5.3 Data Transformation
 
 **Untuk Data Tabular:**
-- Encoding (Label Encoding, One-Hot Encoding, Ordinal Encoding)
-- Scaling (Standardization, Normalization, MinMaxScaler)
 
-**Untuk Data Text:**
-- Tokenization
-- Lowercasing
-- Removing punctuation/stopwords
-- Stemming/Lemmatization
-- Padding sequences
-- Word embedding (Word2Vec, GloVe, fastText)
+Encoding (Ordinal Encoding)
+- Implementasi: Variabel kategorikal temporal `month` dan `day` dikonversi menjadi numerik dengan menjaga urutan alaminya (Jan=1, Feb=2, dst.).
+- Alasan: pemilihan Ordinal Encoding daripada One-Hot Encoding disebabkan karena fitur waktu memiliki hierarki urutan yang penting.
 
-**Untuk Data Image:**
-- Resizing
-- Normalization (pixel values 0-1 atau -1 to 1)
-- Data augmentation (rotation, flip, zoom, brightness, etc.)
-- Color space conversion
-
-**Untuk Time Series:**
-- Creating time windows
-- Lag features
-- Rolling statistics
-- Differencing
-
-**[Jelaskan transformasi yang Anda lakukan]**
+Scaling (Standardization)
+- Implementasi: Menggunakan `StandardScaler` dari library Scikit-Learn pada seluruh fitur prediktor (X).
+- **Alasan:**
+  - Fitur-fitur memiliki satuan yang sangat berbeda (misal: `FFMC` puluhan, `rain` desimal, `DC` ratusan).
+  - Algoritma Multilayer Perceptron (MLP) sangat sensitif terhadap skala input karena proses optimasi bobot (weight updates) menggunakan Gradient Descent. Data yang tidak diskalakan akan menyebabkan konvergensi yang sangat lambat. Standardisasi bertujuan untuk menyeimbangkan kontribusi setiap fitur.
 
 ### 5.4 Data Splitting
 
@@ -724,6 +727,7 @@ nltk==3.8.1           # untuk NLP
 transformers==4.30.0  # untuk BERT, dll
 
 ```
+
 
 
 
