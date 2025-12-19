@@ -263,7 +263,7 @@ Penjelasan Teknis
 
 
 ### 5.5 Data Balancing (jika diperlukan)
-Tidak Diterapkan, karena dataset yang digunakan bersifat Regresi (memprediksi nilai kontinu luas area).
+Tidak Diterapkan, karena dataset forestfire bersifat Regresi (memprediksi nilai kontinu luas area).
 
 ### 5.6 Ringkasan Data Preparation
 
@@ -343,7 +343,7 @@ Berdasarkan evaluasi pada Test Set (skala Logaritma):
 Random Forest adalah algoritma ensemble learning yang bekerja dengan membangun banyak Decision Tree (pohon keputusan) selama pelatihan. Untuk tugas regresi, model ini mengambil rata-rata (mean) dari prediksi semua pohon individu. Teknik ini disebut Bagging yang bertujuan mengurangi varians dan mencegah overfitting yang sering terjadi pada satu pohon keputusan tunggal.
 
 **Alasan Pemilihan:**  
-Dataset yang digunakan memiliki karakteristik noisy dan hubungan antar variabel yang kemungkinan tidak linear (misal: suhu tinggi memicu api, tapi hanya jika kelembapan rendah). Random Forest dipilih karena kemampuannya menangkap pola non-linear yang kompleks dan ketahanannya terhadap outlier dibandingkan model linear.
+Dataset forestfire memiliki karakteristik noisy dan hubungan antar variabel yang kemungkinan tidak linear (misal: suhu tinggi memicu api, tapi hanya jika kelembapan rendah). Random Forest dipilih karena kemampuannya menangkap pola non-linear yang kompleks dan ketahanannya terhadap outlier dibandingkan model linear.
 
 **Keunggulan:**
 - Mampu menangkap hubungan non-linear antar fitur.
@@ -390,14 +390,14 @@ Berdasarkan evaluasi pada Test Set (skala Logaritma):
 
 ---
 
-### 6.3 Model 3 — Deep Learning Model (WAJIB)
+### 6.3 Model 3 — Deep Learning Model
 
 #### 6.3.1 Deskripsi Model
 
-**Nama Model:** [Nama arsitektur, misal: CNN / LSTM / MLP]
+**Nama Model:** Multi Layer Perceptron
 
-** (Centang) Jenis Deep Learning: **
-- [ ] Multilayer Perceptron (MLP) - untuk tabular
+** Jenis Deep Learning: **
+- [✔] Multilayer Perceptron (MLP) - untuk tabular
 - [ ] Convolutional Neural Network (CNN) - untuk image
 - [ ] Recurrent Neural Network (LSTM/GRU) - untuk sequential/text
 - [ ] Transfer Learning - untuk image
@@ -406,105 +406,151 @@ Berdasarkan evaluasi pada Test Set (skala Logaritma):
 - [ ] Neural Collaborative Filtering - untuk recommender
 
 **Alasan Pemilihan:**  
-[Mengapa arsitektur ini cocok untuk dataset Anda?]
+Dataset forestfires berbentuk tabular terstruktur dengan fitur numerik dan kategorikal yang telah encode. MLP dipilih karena kemampuannya melakukan aproksimasi fungsi non-linear universal yang diharapkan dapat menangkap interaksi kompleks antar variabel cuaca (seperti suhu dan angin) yang sulit dimodelkan oleh regresi linear biasa.
 
 #### 6.3.2 Arsitektur Model
 
 **Deskripsi Layer:**
-
-[Jelaskan arsitektur secara detail atau buat tabel]
-
-**Contoh:**
+| Layer (Type) | Output Shape | Param # | Aktivasi | Fungsi |
+| :--- | :--- | :--- | :--- | :--- |
+| **Input Layer** | (None, 13) | 0 | - | Menerima 13 fitur terstandarisasi. |
+| **Dense 1** | (None, 64) | 896 | ReLU | Mengekstrak fitur non-linear awal. |
+| **Dropout 1** | (None, 64) | 0 | - | Rate 0.3 (Mematikan 30% neuron) untuk regularisasi. |
+| **Dense 2** | (None, 32) | 2,080 | ReLU | Memperhalus fitur hasil ekstraksi. |
+| **Dropout 2** | (None, 32) | 0 | - | Rate 0.2 (Mematikan 20% neuron) untuk regularisasi. |
+| **Output** | (None, 1) | 33 | Linear | Menghasilkan 1 nilai kontinu (prediksi regresi). |
 ```
-1. Input Layer: shape (224, 224, 3)
-2. Conv2D: 32 filters, kernel (3,3), activation='relu'
-3. MaxPooling2D: pool size (2,2)
-4. Conv2D: 64 filters, kernel (3,3), activation='relu'
-5. MaxPooling2D: pool size (2,2)
-6. Flatten
-7. Dense: 128 units, activation='relu'
-8. Dropout: 0.5
-9. Dense: 10 units, activation='softmax'
-
-Total parameters: [jumlah]
-Trainable parameters: [jumlah]
+Total parameters: 9,029
+Trainable parameters: 3,009 
 ```
 
 #### 6.3.3 Input & Preprocessing Khusus
 
-**Input shape:** [Sebutkan dimensi input]  
+**Input shape:** `(None, 13)` (13 fitur prediktor)  
 **Preprocessing khusus untuk DL:**
-- [Sebutkan preprocessing khusus seperti normalisasi, augmentasi, dll.]
+- Standardization: Semua input telah diubah menjadi skala Z-Score (Mean=0, Std=1) di tahap Data Transformation.
+- Log Transformation Target: Output model dilatih untuk memprediksi `log(area+1)` untuk menstabilkan loss function.
 
 #### 6.3.4 Hyperparameter
 
 **Training Configuration:**
 ```
-- Optimizer: Adam / SGD / RMSprop
-- Learning rate: [nilai]
-- Loss function: [categorical_crossentropy / mse / binary_crossentropy / etc.]
-- Metrics: [accuracy / mae / etc.]
-- Batch size: [nilai]
-- Epochs: [nilai]
-- Validation split: [nilai] atau menggunakan validation set terpisah
-- Callbacks: [EarlyStopping, ModelCheckpoint, ReduceLROnPlateau, etc.]
+- Optimizer: Adam
+- Learning rate: 0.001 (dengan ReduceLROnPlateau)
+- Loss function: mse
+- Metrics: mae
+- Batch size: 32
+- Epochs: 100 (dengan Early Stopping)
+- Validation split: 0.2 (20% dari Training data)
+- Callbacks:
+  - EarlyStopping (patience=20, restore_best_weights=True)
+  - ReduceLROnPlateau (factor=0.2, patience=5)
 ```
 
 #### 6.3.5 Implementasi (Ringkas)
 
-**Framework:** TensorFlow/Keras / PyTorch
+**Framework:** TensorFlow/Keras
 ```python
-# Contoh kode TensorFlow/Keras
 import tensorflow as tf
-from tensorflow import keras
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Dropout, Input
+from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau
+from tensorflow.keras.optimizers import Adam
+import time
 
-model_dl = keras.Sequential([
-    keras.layers.Dense(128, activation='relu', input_shape=(input_dim,)),
-    keras.layers.Dropout(0.3),
-    keras.layers.Dense(64, activation='relu'),
-    keras.layers.Dropout(0.3),
-    keras.layers.Dense(num_classes, activation='softmax')
+model_dl = Sequential([
+    # Hidden Layer 1: Cukup besar untuk menangkap pola
+    Input(shape=(13,)),
+    Dense(64, activation='relu'),
+    Dropout(0.3), # Mematikan 30% neuron secara acak (mencegah overfitting)
+    
+    # Hidden Layer 2: Lebih kecil
+    Dense(32, activation='relu'),
+    Dropout(0.2),
+
+    # Output Layer: 1 Neuron (karena Regresi) & Linear Activation (default)
+    Dense(1) 
 ])
 
+# Compile Model
 model_dl.compile(
-    optimizer='adam',
-    loss='categorical_crossentropy',
-    metrics=['accuracy']
+    optimizer=Adam(learning_rate=0.001),
+    loss='mean_squared_error', # Loss untuk regresi
+    metrics=['mae']            # Metric pembanding
 )
+
+# Callbacks
+early_stopping = EarlyStopping(
+    monitor='val_loss', 
+    patience=20,         
+    restore_best_weights=True,
+    verbose=1
+)
+
+reduce_lr = ReduceLROnPlateau(
+    monitor='val_loss', 
+    factor=0.2, 
+    patience=5, 
+    min_lr=0.00001,
+    verbose=1
+)
+
+# Training Process
+start_time = time.time()
 
 history = model_dl.fit(
     X_train, y_train,
-    validation_split=0.2,
-    epochs=50,
+    validation_split=0.2, # 20% dari Train dipakai untuk Validasi internal
     batch_size=32,
-    callbacks=[early_stopping]
+    epochs=100,
+    callbacks=[early_stopping, reduce_lr],
+    verbose=1
 )
 ```
 
 #### 6.3.6 Training Process
 
 **Training Time:**  
-[Sebutkan waktu training total, misal: 15 menit]
+7.04 seconds
 
 **Computational Resource:**  
-[CPU / GPU, platform: Local / Google Colab / Kaggle]
+CPU, platform: Google Colab
 
 **Training History Visualization:**
 
-[Insert plot loss dan accuracy/metric per epoch]
-
-**Contoh visualisasi yang WAJIB:**
 1. **Training & Validation Loss** per epoch
+![Training Loss](images/training_loss.png)
+
 2. **Training & Validation Accuracy/Metric** per epoch
+![Training MAE](images/training_mae.png)
 
 **Analisis Training:**
-- Apakah model mengalami overfitting? [Ya/Tidak, jelaskan]
-- Apakah model sudah converge? [Ya/Tidak, jelaskan]
-- Apakah perlu lebih banyak epoch? [Ya/Tidak, jelaskan]
+- Apakah model mengalami overfitting?
+Tidak, justru sebaliknya nilai Validation Loss (1.74) konsisten lebih rendah dibandingkan Training Loss (2.03). Hasil tersebut menunjukkan bahwa mekanisme regularisasi (seperti Dropout) bekerja sangat kuat dan mencegah model menghafal data latihan.
+- Apakah model sudah converge?
+Ya, model mencapai konvergensi (titik stabil) cukup cepat yaitu sekitar Epoch ke-20 di mana Validation Loss mencapai titik terendah (1.7417). Setelah titik tersebut, penurunan loss menjadi sangat lambat (stagnan) meskipun Learning Rate sudah diturunkan otomatis oleh sistem.
+- Apakah perlu lebih banyak epoch?
+Tidak, penambahan epoch tidak diperlukan karena mekanisme Early Stopping telah aktif menghentikan pelatihan di Epoch 40. Hal tersebut terjadi karena tidak ada perbaikan signifikan pada Validation Loss selama 20 epoch berturut-turut, menandakan model sudah jenuh belajar (saturated).
 
 #### 6.3.7 Model Summary
 ```
-[Paste model.summary() output atau rangkuman arsitektur]
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
+┃ Layer (type)                    ┃ Output Shape           ┃       Param # ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
+│ dense_30 (Dense)                │ (None, 64)             │           896 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dropout_20 (Dropout)            │ (None, 64)             │             0 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense_31 (Dense)                │ (None, 32)             │         2,080 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dropout_21 (Dropout)            │ (None, 32)             │             0 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense_32 (Dense)                │ (None, 1)              │            33 │
+└─────────────────────────────────┴────────────────────────┴───────────────┘
+ Total params: 9,029 (35.27 KB)
+ Trainable params: 3,009 (11.75 KB)
+ Non-trainable params: 0 (0.00 B)
+ Optimizer params: 6,020 (23.52 KB)
 ```
 
 ---
@@ -741,6 +787,7 @@ nltk==3.8.1           # untuk NLP
 transformers==4.30.0  # untuk BERT, dll
 
 ```
+
 
 
 
