@@ -295,34 +295,42 @@ Tidak Diterapkan, karena dataset yang digunakan bersifat Regresi (memprediksi ni
 ### 6.1 Model 1 — Baseline Model
 #### 6.1.1 Deskripsi Model
 
-**Nama Model:** [Nama model, misal: Logistic Regression]
+**Nama Model:** Linear Regression
 **Teori Singkat:**  
-[Jelaskan secara singkat bagaimana model ini bekerja]
+Linear Regression mencoba menemukan garis lurus (hyperplane dalam dimensi tinggi) yang paling sesuai dengan data dengan cara meminimalkan jumlah kuadrat residu (Residual Sum of Squares) antara nilai prediksi dan nilai aktual
 **Alasan Pemilihan:**  
-[Mengapa memilih model ini sebagai baseline?]
+Model ini dipilih sebagai baseline karena kesederhanaan, kecepatan komputasi, dan interpretabilitasnya yang tinggi. Jika model kompleks (seperti Deep Learning) tidak dapat mengungguli performa Linear Regression, maka kompleksitas tambahan tersebut dianggap tidak memberikan nilai tambah.
 
 #### 6.1.2 Hyperparameter
 **Parameter yang digunakan:**
 ```
-[Tuliskan parameter penting, contoh:]
-- C (regularization): 1.0
-- solver: 'lbfgs'
-- max_iter: 100
+- fit_intercept: True
+- copy_X: True
+- n_jobs: None
 ```
 
 #### 6.1.3 Implementasi (Ringkas)
 ```python
-# Contoh kode (opsional, bisa dipindah ke GitHub)
-from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, mean_absolute_error
 
-model_baseline = LogisticRegression(C=1.0, max_iter=100)
+# Inisialisasi Model
+model_baseline = LinearRegression(fit_intercept=True,
+                                  copy_X=True,
+                                  n_jobs=None)
+
+# Training Model
 model_baseline.fit(X_train, y_train)
-y_pred_baseline = model_baseline.predict(X_test)
+
+# Prediksi pada Data Test
+y_pred_lr = model_baseline.predict(X_test)
 ```
 
 #### 6.1.4 Hasil Awal
 
-**[Tuliskan hasil evaluasi awal, akan dijelaskan detail di Section 7]**
+Berdasarkan evaluasi pada Test Set (skala Logaritma):
+- RMSE (Root Mean Squared Error): 1.2562
+- MAE (Mean Absolute Error): 1.0774
 
 ---
 
@@ -706,7 +714,7 @@ Saran pengembangan untuk proyek selanjutnya:
 
 ### 10.2 Environment & Dependencies
 
-**Python Version:** [3.8 / 3.9 / 3.10 / 3.11]
+**Python Version:** [3.12]
 
 **Main Libraries & Versions:**
 ```
@@ -728,6 +736,7 @@ nltk==3.8.1           # untuk NLP
 transformers==4.30.0  # untuk BERT, dll
 
 ```
+
 
 
 
