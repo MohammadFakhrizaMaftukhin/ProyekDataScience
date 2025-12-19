@@ -160,7 +160,7 @@ Berdasarkan analisis eksplorasi data, berikut kondisi dan permasalahan yang dite
 ### 4.4 Exploratory Data Analysis (EDA) - (**OPSIONAL**)
 
 #### Visualisasi 1: Distribusi Seluruh Fitur Numerik
-<img width="1983" height="1484" alt="histogram fitur" src="https://github.com/user-attachments/assets/a1801f31-a469-435f-a142-c9f0801f4dc7" />
+![Distribusi Fitur](images/vis1_distribusi.png)
 
 
 **Insight:**  
@@ -173,8 +173,7 @@ Berdasarkan analisis eksplorasi data, berikut kondisi dan permasalahan yang dite
     - `RH` (kelembaban) sedikit miring ke kanan, namun masih tersebar cukup merata.
 
 #### Visualisasi 2: Heatmap Korelasi Fitur
-
-<img width="789" height="687" alt="heatmap korelasi fitur" src="https://github.com/user-attachments/assets/00c5e28a-061a-4c2c-8b30-90f4fce088de" />
+![Heatmap Korelasi Fitur](images/vis2_heatmap.png)
 
 
 **Insight:**  
@@ -183,8 +182,7 @@ Berdasarkan analisis eksplorasi data, berikut kondisi dan permasalahan yang dite
 - `temp` (suhu) memiliki korelasi positif terbesar terhadap indeks kebakaran (`FFMC`, `ISI`), menunjukkan suhu adalah faktor pendorong risiko kebakaran utama.
 
 #### Visualisasi 3: Scatter Plot Temperatur vs Log(Area)
-
-<img width="686" height="556" alt="scatter plot" src="https://github.com/user-attachments/assets/8dd779ab-4ff4-41ce-baa6-430c49ca7019" />
+![Scatter Plot Temperatur vs Log(area)](images/vis3_scatter.png)
 
 
 **Insight:**  
@@ -736,6 +734,7 @@ nltk==3.8.1           # untuk NLP
 transformers==4.30.0  # untuk BERT, dll
 
 ```
+
 
 
 
