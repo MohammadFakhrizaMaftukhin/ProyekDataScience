@@ -251,42 +251,43 @@ Scaling (Standardization)
 
 ### 5.4 Data Splitting
 
+karena ukuran dataset yang terbatas setelah pembersihan (513 sampel), strategi pembagian data dilakukan dengan proporsi 80:20.
+
 **Strategi pembagian data:**
 ```
-- Training set: [X]% ([jumlah] samples)
-- Validation set: [X]% ([jumlah] samples) - jika ada
-- Test set: [X]% ([jumlah] samples)
+- Training set: 80% (410  samples)
+- Validation set: Diambil sebesar 20% dari *Training Set* secara internal saat proses pelatihan model.
+- Test set: 20% (103 samples)
 ```
-**Contoh:**
-```
-Menggunakan stratified split untuk mempertahankan distribusi kelas:
-- Training: 80% (8000 samples)
-- Test: 20% (2000 samples)
-- Random state: 42 untuk reproducibility
-```
-
-**[Jelaskan strategi splitting Anda dan alasannya]**
-
+Penjelasan Teknis
+- **Metode:** Random Split dengan `random_state=42` pada dataset yang telah bersih dari duplikat.
+- **Alasan:** Memastikan pembagian dilakukan setelah penghapusan data duplikat (dari 517 menjadi 513) untuk mencegah data leakage, di mana data yang sama persis muncul di Training Set dan Test Set.
 
 
 ### 5.5 Data Balancing (jika diperlukan)
-**Teknik yang digunakan:**
-- SMOTE (Synthetic Minority Over-sampling Technique)
-- Random Undersampling
-- Class weights
-- Ensemble sampling
-
-**[Jelaskan jika Anda melakukan data balancing]**
+Tidak Diterapkan, karena dataset yang digunakan bersifat Regresi (memprediksi nilai kontinu luas area), bukan Klasifikasi.
 
 ### 5.6 Ringkasan Data Preparation
 
-**Per langkah, jelaskan:**
-1. **Apa** yang dilakukan
-**[Jelaskan ]**
-2. **Mengapa** penting
-**[Jelaskan Mengapa ?]**
-3. **Bagaimana** implementasinya
-**[Jelaskan Bagaimana]**
+#### 1. Data Cleaning
+- **Apa:** Menghapus 4 data duplikat, mengubah tipe data waktu (`month`, `day`) menjadi numerik, dan menangani outlier pada target `area` dengan transformasi logaritma.
+- **Mengapa:** Duplikasi menyebabkan bias evaluasi, format string tidak bisa diproses algoritma, dan outlier ekstrem pada target membuat prediksi model regresi menjadi tidak stabil.
+- **Bagaimana:** Menggunakan fungsi `drop_duplicates()`, manual mapping untuk encoding ordinal, dan fungsi `np.log1p()` untuk transformasi target.
+
+#### 2. Feature Engineering
+- **Apa:** Membuat fitur baru `is_weekend` dan melakukan seleksi fitur (membuang target asli `area` dari variabel prediktor).
+- **Mengapa:** Menambahkan informasi domain (aktivitas manusia di akhir pekan) membantu model mengenali pola risiko, serta mencegah kebocoran data (data leakage) agar evaluasi valid.
+- **Bagaimana:** Menerapkan logika kondisional (jika hari >= Sabtu maka 1, selain itu 0) dan memisahkan dataframe menjadi `X` (fitur) dan `y` (target log).
+
+#### 3. Data Transformation
+- **Apa:** Melakukan Standard Scaling pada seluruh fitur numerik.
+- **Mengapa:** Algoritma Deep Learning (MLP) sangat sensitif terhadap skala data. Perbedaan rentang nilai yang besar (misal: FFMC vs Rain) akan menghambat proses optimasi Gradient Descent dan konvergensi model.
+- **Bagaimana:** Menggunakan `StandardScaler` dari Scikit-Learn untuk mengubah distribusi fitur menjadi rata-rata 0 dan standar deviasi 1.
+
+#### 4. Data Splitting
+- **Apa:** Membagi data bersih (513 sampel) menjadi 80% Training Set dan 20% Test Set.
+- **Mengapa:** Diperlukan data terpisah yang tidak pernah dilihat model selama pelatihan untuk mengukur kemampuan generalisasi model secara objektif.
+- **Bagaimana:** Menggunakan `train_test_split` dengan `random_state=42` untuk memastikan reproduksibilitas hasil pembagian.
 
 ---
 
@@ -727,6 +728,7 @@ nltk==3.8.1           # untuk NLP
 transformers==4.30.0  # untuk BERT, dll
 
 ```
+
 
 
 
