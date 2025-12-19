@@ -263,7 +263,7 @@ Penjelasan Teknis
 
 
 ### 5.5 Data Balancing (jika diperlukan)
-Tidak Diterapkan, karena dataset yang digunakan bersifat Regresi (memprediksi nilai kontinu luas area), bukan Klasifikasi.
+Tidak Diterapkan, karena dataset yang digunakan bersifat Regresi (memprediksi nilai kontinu luas area).
 
 ### 5.6 Ringkasan Data Preparation
 
@@ -294,8 +294,10 @@ Tidak Diterapkan, karena dataset yang digunakan bersifat Regresi (memprediksi ni
 #### 6.1.1 Deskripsi Model
 
 **Nama Model:** Linear Regression
+
 **Teori Singkat:**  
-Linear Regression mencoba menemukan garis lurus (hyperplane dalam dimensi tinggi) yang paling sesuai dengan data dengan cara meminimalkan jumlah kuadrat residu (Residual Sum of Squares) antara nilai prediksi dan nilai aktual
+Linear Regression mencoba menemukan garis lurus (hyperplane dalam dimensi tinggi) yang paling sesuai dengan data dengan cara meminimalkan jumlah kuadrat residu (Residual Sum of Squares) antara nilai prediksi dan nilai aktual.
+
 **Alasan Pemilihan:**  
 Model ini dipilih sebagai baseline karena kesederhanaan, kecepatan komputasi, dan interpretabilitasnya yang tinggi. Jika model kompleks (seperti Deep Learning) tidak dapat mengungguli performa Linear Regression, maka kompleksitas tambahan tersebut dianggap tidak memberikan nilai tambah.
 
@@ -335,51 +337,56 @@ Berdasarkan evaluasi pada Test Set (skala Logaritma):
 ### 6.2 Model 2 — ML / Advanced Model
 #### 6.2.1 Deskripsi Model
 
-**Nama Model:** [Nama model, misal: Random Forest / XGBoost]
+**Nama Model:** Random Forest Regressor
+
 **Teori Singkat:**  
-[Jelaskan bagaimana algoritma ini bekerja]
+Random Forest adalah algoritma ensemble learning yang bekerja dengan membangun banyak Decision Tree (pohon keputusan) selama pelatihan. Untuk tugas regresi, model ini mengambil rata-rata (mean) dari prediksi semua pohon individu. Teknik ini disebut Bagging yang bertujuan mengurangi varians dan mencegah overfitting yang sering terjadi pada satu pohon keputusan tunggal.
 
 **Alasan Pemilihan:**  
-[Mengapa memilih model ini?]
+Dataset yang digunakan memiliki karakteristik noisy dan hubungan antar variabel yang kemungkinan tidak linear (misal: suhu tinggi memicu api, tapi hanya jika kelembapan rendah). Random Forest dipilih karena kemampuannya menangkap pola non-linear yang kompleks dan ketahanannya terhadap outlier dibandingkan model linear.
 
 **Keunggulan:**
-- [Sebutkan keunggulan]
+- Mampu menangkap hubungan non-linear antar fitur.
+- Lebih tahan terhadap overfitting dibanding Decision Tree tunggal.
+- Tidak memerlukan asumsi distribusi data normal seperti Linear Regression.
 
 **Kelemahan:**
-- [Sebutkan kelemahan]
+- Model bersifat lebih sulit diinterpretasikan secara langsung dibanding Linear Regression.
+- Waktu pelatihan lebih lama seiring bertambahnya jumlah pohon (n_estimators).
 
 #### 6.2.2 Hyperparameter
 
 **Parameter yang digunakan:**
 ```
-[Tuliskan parameter penting, contoh:]
 - n_estimators: 100
-- max_depth: 10
-- learning_rate: 0.1
-- min_samples_split: 2
+- random_state: 42
 ```
 
 **Hyperparameter Tuning (jika dilakukan):**
-- Metode: [Grid Search / Random Search / Bayesian Optimization]
-- Best parameters: [...]
+Tidak diterapkan
 
 #### 6.2.3 Implementasi (Ringkas)
 ```python
-# Contoh kode
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestRegressor
 
-model_advanced = RandomForestClassifier(
-    n_estimators=100,
-    max_depth=10,
-    random_state=42
-)
+# Inisialisasi Model
+model_advanced = RandomForestRegressor(n_estimators=100,
+                                 random_state=42,
+                                 bootstrap=True,
+                                 criterion='squared_error')
+
+# Training Model
 model_advanced.fit(X_train, y_train)
+
+# Prediksi pada Data Test
 y_pred_advanced = model_advanced.predict(X_test)
 ```
 
 #### 6.2.4 Hasil Model
 
-**[Tuliskan hasil evaluasi, akan dijelaskan detail di Section 7]**
+Berdasarkan evaluasi pada Test Set (skala Logaritma):
+- RMSE: 1.3500
+- MAE: 1.1573
 
 ---
 
@@ -734,6 +741,7 @@ nltk==3.8.1           # untuk NLP
 transformers==4.30.0  # untuk BERT, dll
 
 ```
+
 
 
 
