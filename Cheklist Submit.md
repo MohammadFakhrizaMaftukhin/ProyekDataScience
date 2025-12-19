@@ -21,7 +21,8 @@ Sebelum mengumpulkan proyek, pastikan:
 - [ ] Model deep learning berhasil training
 - [ ] Ada print/log hasil evaluasi
 - ✅ Kode ada komentar pada bagian penting
-- [ ] Tidak ada hardcoded path (gunakan relative path)
+- ✅ Tidak ada hardcoded path (gunakan relative path)
+
 
 
 
