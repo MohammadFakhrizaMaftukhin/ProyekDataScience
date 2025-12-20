@@ -680,32 +680,33 @@ Visualisasi di atas menunjukkan performa prediksi Deep Learning. Meskipun mampu 
 ### 8.1 Kesimpulan Utama
 
 **Model Terbaik:**  
-[Sebutkan model terbaik berdasarkan evaluasi]
+Model Baseline (Linear Regression)
 
 **Alasan:**  
-[Jelaskan mengapa model tersebut lebih unggul]
+Berdasarkan metrik evaluasi objektif pada data uji (test set), Linear Regression mencatatkan performa paling optimal dengan RMSE terendah (1.2562) dan MAE terendah (1.0774). Keunggulan ini disebabkan oleh karakteristik model linear yang memiliki bias tinggi namun varians rendah, membuatnya lebih tahan terhadap dataset Forest Fires yang berukuran kecil (< 1000 sampel) dan memiliki tingkat noise serta outliers yang tinggi.
 
 **Pencapaian Goals:**  
-[Apakah goals di Section 3.2 tercapai? Jelaskan]
+Tujuan proyek yang didefinisikan pada Section 3.2 telah Tercapai dengan Catatan:
+Saya berhasil membangun pipeline Machine Learning end-to-end (dari preprocessing hingga evaluasi) yang mampu memprediksi luas area kebakaran hutan.Juga berhasil membandingkan kinerja tiga paradigma algoritma berbeda (Statistik, Ensemble, dan Neural Networks). Meskipun tujuan fungsional sudah tercapai, tingkat akurasi prediksi secara absolut masih terbatas (terlihat dari nilai RMSE yang masih di atas 1.0 pada skala log).
 
 ### 8.2 Key Insights
 
 **Insight dari Data:**
-- [Insight 1]
-- [Insight 2]
-- [Insight 3]
+- Mayoritas data kebakaran hutan memiliki nilai luas area yang sangat kecil atau nol. Distribusi yang sangat miring (highly skewed) ini membuat model cenderung bias memprediksi nilai rendah, dan kesulitan menangkap kejadian kebakaran besar yang jarang terjadi.
+- Korelasi antara variabel cuaca (Suhu, Angin, Kelembapan) dengan luas area kebakaran ternyata sangat lemah (mendekati nol pada Heatmap).
+- Analisis waktu menunjukkan pola musiman yang jelas, di mana insiden kebakaran memuncak pada bulan-bulan musim panas (Agustus-September). Namun, variabel waktu saja (bulan/hari) tidak cukup kuat untuk memprediksi keparahan (luas area) kebakaran secara presisi.
 
 **Insight dari Modeling:**
-- [Insight 1]
-- [Insight 2]
+- Pada dataset yang noisy dan berukuran kecil, model yang lebih kompleks (Random Forest & Deep Learning) justru rentan terhadap overfitting.
+- Eksperimen membuktikan bahwa arsitektur Neural Network (MLP) membutuhkan jumlah data yang masif untuk belajar secara efektif.
 
 ### 8.3 Kontribusi Proyek
 
 **Manfaat praktis:**  
-[Jelaskan bagaimana proyek ini dapat digunakan di dunia nyata]
+Proyek ini membuktikan bahwa untuk pemantauan risiko kebakaran hutan berbasis data cuaca terbatas, instansi kehutanan tidak perlu menginvestasikan infrastruktur komputasi mahal untuk menjalankan model Deep Learning yang berat.
 
 **Pembelajaran yang didapat:**  
-[Jelaskan apa yang Anda pelajari dari proyek ini]
+Saya belajar bahwa algoritma yang lebih canggih (seperti Random Forest atau Neural Networks) tidak menjamin hasil yang lebih baik. Justru, kompleksitas tanpa didukung jumlah data yang memadai sering kali berujung pada overfitting dan generalisasi yang buruk.
 
 ---
 
@@ -742,7 +743,7 @@ Saran pengembangan untuk proyek selanjutnya:
 
 ### 10.1 GitHub Repository
 
-**Link Repository:** [URL GitHub Anda]
+**Link Repository:** https://github.com/MohammadFakhrizaMaftukhin/ProyekDataScience.git
 
 **Repository harus berisi:**
 - ✅ Notebook Jupyter/Colab dengan hasil running
@@ -776,6 +777,7 @@ nltk==3.8.1           # untuk NLP
 transformers==4.30.0  # untuk BERT, dll
 
 ```
+
 
 
 
