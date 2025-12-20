@@ -559,47 +559,11 @@ Tidak, penambahan epoch tidak diperlukan karena mekanisme Early Stopping telah a
 
 ### 7.1 Metrik Evaluasi
 
-**Pilih metrik yang sesuai dengan jenis tugas:**
-
-#### **Untuk Klasifikasi:**
-- **Accuracy**: Proporsi prediksi yang benar
-- **Precision**: TP / (TP + FP)
-- **Recall**: TP / (TP + FN)
-- **F1-Score**: Harmonic mean dari precision dan recall
-- **ROC-AUC**: Area under ROC curve
-- **Confusion Matrix**: Visualisasi prediksi
-
 #### **Untuk Regresi:**
-- **MSE (Mean Squared Error)**: Rata-rata kuadrat error
 - **RMSE (Root Mean Squared Error)**: Akar dari MSE
+- Alasan Penggunaan: Dalam konteks kebakaran hutan, kesalahan prediksi pada kebakaran besar (outlier) jauh lebih berbahaya daripada kesalahan pada kebakaran kecil. RMSE memiliki sifat memberikan penalti lebih besar (hukuman berat) pada error yang besar karena proses pengkuadratan.
 - **MAE (Mean Absolute Error)**: Rata-rata absolute error
-- **R² Score**: Koefisien determinasi
-- **MAPE (Mean Absolute Percentage Error)**: Error dalam persentase
-
-#### **Untuk NLP (Text Classification):**
-- **Accuracy**
-- **F1-Score** (terutama untuk imbalanced data)
-- **Precision & Recall**
-- **Perplexity** (untuk language models)
-
-#### **Untuk Computer Vision:**
-- **Accuracy**
-- **IoU (Intersection over Union)** - untuk object detection/segmentation
-- **Dice Coefficient** - untuk segmentation
-- **mAP (mean Average Precision)** - untuk object detection
-
-#### **Untuk Clustering:**
-- **Silhouette Score**
-- **Davies-Bouldin Index**
-- **Calinski-Harabasz Index**
-
-#### **Untuk Recommender System:**
-- **RMSE**
-- **Precision@K**
-- **Recall@K**
-- **NDCG (Normalized Discounted Cumulative Gain)**
-
-**[Pilih dan jelaskan metrik yang Anda gunakan]**
+- Alasan Penggunaan: Dataset Forest Fires memiliki banyak noise dan varians yang tinggi. MAE memberikan gambaran kesalahan rata-rata yang lebih intuitif dan tidak terlalu sensitif terhadap outlier dibandingkan RMSE.
 
 ### 7.2 Hasil Evaluasi Model
 
@@ -607,50 +571,69 @@ Tidak, penambahan epoch tidak diperlukan karena mekanisme Early Stopping telah a
 
 **Metrik:**
 ```
-[Tuliskan hasil metrik, contoh:]
-- Accuracy: 0.75
-- Precision: 0.73
-- Recall: 0.76
-- F1-Score: 0.74
+- RMSE: 1.2562
+- MAE : 1.0774
 ```
 
-**Confusion Matrix / Visualization:**  
-[Insert gambar jika ada]
+**Visualization:**  
+![Eavluasi Model Baseline](images/evaluasi_model1.png)
+
+**Analisis Singkat:**
+Grafik Actual vs Predicted di atas menunjukkan sebaran prediksi Linear Regression.
+- Titik-titik cenderung menyebar luas di sekitar garis diagonal, menandakan adanya error yang cukup signifikan.
+- Model terlihat kesulitan memprediksi nilai ekstrem (area kebakaran besar), di mana titik prediksi cenderung underestimate (berada di bawah garis merah untuk nilai aktual yang tinggi).
+- Sebagai Baseline, performa ini menjadi standar minimal yang harus dikalahkan oleh model yang lebih kompleks.
 
 #### 7.2.2 Model 2 (Advanced/ML)
 
 **Metrik:**
 ```
-- Accuracy: 0.85
-- Precision: 0.84
-- Recall: 0.86
-- F1-Score: 0.85
+- RMSE: 1.3500
+- MAE : 1.1573
 ```
 
-**Confusion Matrix / Visualization:**  
-[Insert gambar jika ada]
+**Visualization:**  
+![Evaluasi Model Advanced](images/evaluasi_model2.png)
 
-**Feature Importance (jika applicable):**  
-[Insert plot feature importance untuk tree-based models]
+Visualisasi di atas memperlihatkan perbandingan nilai aktual dan prediksi. Dibandingkan Linear Regression, Random Forest biasanya menunjukkan pola yang lebih rapat ke garis diagonal pada rentang nilai rendah, namun masih memiliki keterbatasan dalam memprediksi nilai ekstrem (outlier).
+
+**Feature Importance:**  
+![Feature Importance](images/feature_importance.png)
+
+**Analisis Feature Importance:**
+Berdasarkan plot di atas, model menemukan bahwa faktor-faktor berikut adalah yang paling krusial:
+1.  temp: Menjadi indikator terkuat. Hal ini masuk akal secara fisik karena suhu tinggi langsung memicu api.
+2.  RH: Berada di posisi kedua, menunjukkan pengaruh signifikan terhadap penyebaran api.
+3.  Variabel waktu (seperti bulan/hari) memiliki dampak yang lebih rendah dibandingkan variabel cuaca fisik (suhu/kelembapan), mengindikasikan bahwa kebakaran lebih dipicu oleh kondisi alam saat kejadian daripada sekadar waktu kalender.
 
 #### 7.2.3 Model 3 (Deep Learning)
 
 **Metrik:**
 ```
-- Accuracy: 0.89
-- Precision: 0.88
-- Recall: 0.90
-- F1-Score: 0.89
+- RMSE: 1.3233
+- MAE : 1.1153
 ```
 
-**Confusion Matrix / Visualization:**  
-[Insert gambar jika ada]
+**Visualization:**  
+![Evaluasi Model Deep Learning](images/result_model3.png)
+
+Visualisasi di atas menunjukkan performa prediksi Deep Learning. Meskipun mampu menangkap pola umum, model ini masih menunjukkan kesulitan yang serupa dengan model lainnya dalam memprediksi nilai ekstrem (outlier) pada dataset Forest Fires.
 
 **Training History:**  
 [Sudah diinsert di Section 6.3.6]
 
 **Test Set Predictions:**  
-[Opsional: tampilkan beberapa contoh prediksi]
+| Actual (Log) | Predicted (Log) | Abs Error |
+| :--- | :--- | :--- |
+| 0.000000 | 0.892554 | 0.892554 |
+| 0.000000 | 0.798860 | 0.798860 |
+| 0.000000 | 1.293431 | 1.293431 |
+| 0.940007 | 1.471695 | 0.531688 |
+| 0.000000 | 0.971406 | 0.971406 |
+
+**Analisis Singkat:**
+- **Performa:** Model Deep Learning menghasilkan RMSE sebesar 1.3233 dan MAE sebesar 1.1153.
+- **Komparasi:** Performa model ini sebanding atau sedikit di bawah Random Forest. Hal ini dikarenakan dataset tabular berukuran kecil (<1000 baris) seringkali lebih efektif ditangani oleh algoritma Tree-based dibandingkan Neural Networks yang membutuhkan data masif untuk optimal.
 
 ### 7.3 Perbandingan Ketiga Model
 
@@ -787,6 +770,7 @@ nltk==3.8.1           # untuk NLP
 transformers==4.30.0  # untuk BERT, dll
 
 ```
+
 
 
 
