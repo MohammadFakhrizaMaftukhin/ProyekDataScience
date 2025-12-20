@@ -615,7 +615,7 @@ Berdasarkan plot di atas, model menemukan bahwa faktor-faktor berikut adalah yan
 ```
 
 **Visualization:**  
-![Evaluasi Model Deep Learning](images/result_model3.png)
+![Evaluasi Model Deep Learning](images/evaluasi_model3.png)
 
 Visualisasi di atas menunjukkan performa prediksi Deep Learning. Meskipun mampu menangkap pola umum, model ini masih menunjukkan kesulitan yang serupa dengan model lainnya dalam memprediksi nilai ekstrem (outlier) pada dataset Forest Fires.
 
@@ -633,39 +633,45 @@ Visualisasi di atas menunjukkan performa prediksi Deep Learning. Meskipun mampu 
 
 **Analisis Singkat:**
 - **Performa:** Model Deep Learning menghasilkan RMSE sebesar 1.3233 dan MAE sebesar 1.1153.
-- **Komparasi:** Performa model ini sebanding atau sedikit di bawah Random Forest. Hal ini dikarenakan dataset tabular berukuran kecil (<1000 baris) seringkali lebih efektif ditangani oleh algoritma Tree-based dibandingkan Neural Networks yang membutuhkan data masif untuk optimal.
+- **Komparasi:** Model ini sedikit mengungguli Random Forest, membuktikan bahwa arsitektur non-linear MLP mampu mengekstrak fitur laten dengan lebih baik.
 
 ### 7.3 Perbandingan Ketiga Model
 
 **Tabel Perbandingan:**
 
-| Model | Accuracy | Precision | Recall | F1-Score | Training Time | Inference Time |
-|-------|----------|-----------|--------|----------|---------------|----------------|
-| Baseline (Model 1) | 0.75 | 0.73 | 0.76 | 0.74 | 2s | 0.01s |
-| Advanced (Model 2) | 0.85 | 0.84 | 0.86 | 0.85 | 30s | 0.05s |
-| Deep Learning (Model 3) | 0.89 | 0.88 | 0.90 | 0.89 | 15min | 0.1s |
+| Model | RMSE (Log) | MAE (Log) | Training Time | Inference Time | Keterangan |
+|-------|------------|-----------|---------------|----------------|------------|
+| **Baseline (Linear Regression)** | 1.2562 | 1.0774 | < 0.1s | < 0.001s | Model sederhana, sangat cepat, dan paling stabil. |
+| **Advanced (Random Forest)** | 1.3500 | 1.1573 | ~2s | ~0.02s | Mengalami sedikit overfitting pada data noise. |
+| **Deep Learning (MLP)** | 1.3233 | 1.1153 | ~7s | ~0.1s | Performa moderat, butuh data lebih banyak. |
 
 **Visualisasi Perbandingan:**  
-[Insert bar chart atau plot perbandingan metrik]
+![Perbandingan Model](images/model_comparison.png)
 
 ### 7.4 Analisis Hasil
 
 **Interpretasi:**
 
 1. **Model Terbaik:**  
-   [Sebutkan model mana yang terbaik dan mengapa]
+   Berdasarkan evluasi yang telah dilakukan, Model Baseline (Linear Regression) tercatat sebagai model terbaik dengan nilai RMSE terendah (1.2562) dan MAE terendah (1.0774) pada data uji. Meskipun merupakan model yang paling sederhana, Linear Regression mampu melakukan generalisasi yang lebih baik dibandingkan Random Forest maupun Deep Learning pada dataset ini.
 
 2. **Perbandingan dengan Baseline:**  
-   [Jelaskan peningkatan performa dari baseline ke model lainnya]
+   - Baseline ke Random Forest: Performa justru menurun (RMSE naik dari 1.25 menjadi 1.35). Algoritma ensemble yang kompleks ini tampaknya terjebak mempelajari noise (pola acak) pada data latih yang tidak berlaku pada data uji.
+   - Baseline ke Deep Learning: Model MLP juga gagal mengungguli baseline (RMSE 1.32). Meskipun arsitektur neural network mampu menangkap pola non-linear, kurangnya jumlah data membuat model kesulitan menemukan fitur laten yang benar-benar prediktif, sehingga hasil akhirnya tidak lebih baik dari regresi linear sederhana.
 
 3. **Trade-off:**  
-   [Jelaskan trade-off antara performa vs kompleksitas vs waktu training]
+   - Linear Regression unggul dalam hal efisiensi karena waktu komputasi hanya (< 0.01 detik) dan interpretabilitas.
+   - Deep Learning membutuhkan waktu training paling lama (~7 detik) dan penyetelan hyperparameter yang rumit (layer, dropout, learning rate), namun "biaya" tinggi ini tidak terbayar dengan peningkatan akurasi pada kasus ini.
+   - Kesimpulan Trade-off: Untuk dataset Forest Fires, penggunaan model kompleks (High Complexity) memberikan negative return on investment (membayar biaya komputasi lebih mahal untuk hasil yang lebih buruk).
 
 4. **Error Analysis:**  
-   [Jelaskan jenis kesalahan yang sering terjadi, kasus yang sulit diprediksi]
+   - Model sangat akurat memprediksi kebakaran kecil (area mendekati 0), namun ketika nilai aktual sangat besar (misal: area > 100 hektar), model cenderung memprediksi nilai yang jauh lebih rendah (konservatif).
+   - Hal ini disebabkan oleh ketidakseimbangan data (skewed distribution). Mayoritas data adalah kebakaran kecil, sehingga model "belajar" bahwa aman untuk menebak angka kecil. Fitur cuaca (suhu/angin) ternyata tidak cukup kuat untuk membedakan antara kebakaran "agak besar" dan "sangat besar" tanpa bantuan fitur geospasial lain.
 
 5. **Overfitting/Underfitting:**  
-   [Analisis apakah model mengalami overfitting atau underfitting]
+   - Linear Regression: Kemungkinan mengalami sedikit underfitting (bias tinggi) karena model terlalu kaku untuk menangkap nuansa interaksi cuaca yang kompleks, namun justru kekakuan inilah yang menyelamatkannya dari varians data uji yang liar.
+   - Random Forest: Terindikasi mengalami overfitting (varians tinggi). Gap antara performa saat training (biasanya sangat bagus di RF) dan testing (buruk) menunjukkan model menghafal data latih.
+   - Deep Learning: Tidak mengalami overfitting parah berkat penggunaan Dropout (terlihat dari kurva Loss yang stabil), namun performanya tertahan karena kurangnya volume data untuk melatih bobot jaringan secara optimal (Data Starvation).
 
 ---
 
@@ -770,6 +776,7 @@ nltk==3.8.1           # untuk NLP
 transformers==4.30.0  # untuk BERT, dll
 
 ```
+
 
 
 
