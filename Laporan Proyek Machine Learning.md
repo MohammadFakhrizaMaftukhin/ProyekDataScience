@@ -713,22 +713,21 @@ Saya belajar bahwa algoritma yang lebih canggih (seperti Random Forest atau Neur
 ## 9. FUTURE WORK (Opsional)
 
 Saran pengembangan untuk proyek selanjutnya:
-** Centang Sesuai dengan saran anda **
 
 **Data:**
-- [ ] Mengumpulkan lebih banyak data
-- [ ] Menambah variasi data
-- [ ] Feature engineering lebih lanjut
+- ✅ Mengumpulkan lebih banyak data
+- ✅ Menambah variasi data
+- ✅ Feature engineering lebih lanjut
 
 **Model:**
 - [ ] Mencoba arsitektur DL yang lebih kompleks
-- [ ] Hyperparameter tuning lebih ekstensif
+- ✅ Hyperparameter tuning lebih ekstensif
 - [ ] Ensemble methods (combining models)
 - [ ] Transfer learning dengan model yang lebih besar
 
 **Deployment:**
 - [ ] Membuat API (Flask/FastAPI)
-- [ ] Membuat web application (Streamlit/Gradio)
+- ✅ Membuat web application (Streamlit/Gradio)
 - [ ] Containerization dengan Docker
 - [ ] Deploy ke cloud (Heroku, GCP, AWS)
 
@@ -759,24 +758,20 @@ Saran pengembangan untuk proyek selanjutnya:
 
 **Main Libraries & Versions:**
 ```
-numpy==1.24.3
-pandas==2.0.3
-scikit-learn==1.3.0
-matplotlib==3.7.2
-seaborn==0.12.2
+numpy==2.0.2
+pandas==2.2.2
+scikit-learn==1.6.1
+matplotlib==3.10.0
+seaborn==0.13.2
 
-# Deep Learning Framework (pilih salah satu)
-tensorflow==2.14.0  # atau
-torch==2.1.0        # PyTorch
+# Deep Learning Framework
+tensorflow==2.19.0
 
-# Additional libraries (sesuaikan)
-xgboost==1.7.6
-lightgbm==4.0.0
-opencv-python==4.8.0  # untuk computer vision
-nltk==3.8.1           # untuk NLP
-transformers==4.30.0  # untuk BERT, dll
+# Additional libraries
+Tidak memakai library tambahan
 
 ```
+
 
 
 
