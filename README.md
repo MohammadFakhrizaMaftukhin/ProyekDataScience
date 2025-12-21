@@ -4,7 +4,7 @@ Prediksi Luas Area Kebakaran Hutan Menggunakan Pendekatan Machine Learning dan D
 ## 👤 Informasi
 - **Nama:** Mohammad Fakhriza Maftukhin  
 - **Repo:** ProyekDataScience  
-- **Video:** [...]  
+- **Video:** Video Pembahasan UAS Data Science
 
 ---
 
