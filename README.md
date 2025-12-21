@@ -73,7 +73,7 @@ project/
 ---
 
 # 3. 📊 Dataset
-- **Sumber:** UCI Machine Learning Repository
+- **Sumber:** UCI Machine Learning Repository (https://archive.ics.uci.edu/ml/datasets/forest+fires)
 - **Jumlah Data:** 517 baris
 - **Tipe:** Tabular 
 
