@@ -6,11 +6,11 @@
 - ✅ Ada visualisasi EDA (min. 3)
 - ✅ Ada hasil evaluasi ketiga model
 - ✅ Ada link GitHub yang dapat diakses
-- [ ] Ada link video penjeloasan proyek
+- ✅ Ada link video penjeloasan proyek
 
 ### **GitHub Repository:**
 - ✅ Kode dapat dijalankan (tested)
-- [ ] Ada requirements.txt atau environment.yml
+- ✅ Ada requirements.txt atau environment.yml
 - ✅ Ada  README.md dengan cara menjalankan
 - ✅ Folder terstruktur (src/, data/, models/, notebooks/)
 - ✅ Ada file .gitignore (jangan upload data besar)
@@ -21,6 +21,7 @@
 - ✅ Ada print/log hasil evaluasi
 - ✅ Kode ada komentar pada bagian penting
 - ✅ Tidak ada hardcoded path (gunakan relative path)
+
 
 
 
